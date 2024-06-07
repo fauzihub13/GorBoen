@@ -121,7 +121,7 @@
                         $wisataCollection = collect($wisata);
                         $contentCollection = collect($content);
                     @endphp 
-                    @foreach ($wisataCollection->slice(0, 6) as $item) <!-- Menggunakan metode slice() untuk membatasi jumlah item menjadi 6 -->
+                    @foreach ($wisataCollection->slice(0, 6) as $item) 
                         <div class="col-xl-4 col-lg-4 col-md-6">
                             <div class="single-place mb-30">
                                 <div class="place-img">

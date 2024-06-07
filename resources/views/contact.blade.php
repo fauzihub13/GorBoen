@@ -15,7 +15,7 @@
     .button {
         display: inline-block;
         padding: 10px 20px;
-        margin: 10px;
+        margin: 5px;
         border: none;
         border-radius: 5px;
         font-size: 16px;
@@ -60,22 +60,8 @@
 }
 </style>
 <body>
-    <div class="slider-area">
-        <!-- Mobile Menu -->
-        <div class="single-slider slider-height2 d-flex align-items-center" data-background="assets/img/hero/contact_hero.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap text-center">
-                            <h2>Contact us</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider Area End-->
-    <!-- ================ contact section start ================= -->
+    
+    
     <section class="contact-section">
         <div class="container">
             <div class="d-none d-sm-block mb-5 pb-4">
@@ -85,8 +71,8 @@
             <button class="button green2">Mia Putri Yeza</button>
             <button class="button green3">Syifa Nursaadah</button>
             <button class="button green4">Fauzi Adi Saputra</button>
-            <button class="button green5">Muhammad Farhan Silalahi</button>
-            <button class="button green6">Ester Olivia</button>
+            <button class="button green5">Muhammad Farhan Fahrezy</button>
+            <button class="button green6">Ester Olivia Silalahi</button>
             
         </div>
     </section>
