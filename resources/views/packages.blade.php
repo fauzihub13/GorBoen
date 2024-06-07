@@ -63,7 +63,7 @@
                                 <div class="place-cap-bottom">
                                     <ul>
                                         <li><i class="far fa-clock"></i>{{$item["Kontak"] ? $item["Kontak"] : '' }}</li>
-                                        <li><i class="fas fa-map-marker-alt"></i>Bogor</li>
+                                        <li><i class="fas fa-map-marker-alt"></i>{{$item["wilayah"] ? $item["wilayah"] : '' }}</li>
                                     </ul>
                                 </div>
                             </div>

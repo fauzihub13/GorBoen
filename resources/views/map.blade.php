@@ -23,7 +23,9 @@
 </div>
 
 <script>
-const map = L.map('map').setView([-6.602372, 106.804015], 9);
+
+const map = L.map('map').setView([-6.593154, 106.808416], 13);
+
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -55,6 +57,8 @@ $.ajax({
         console.log(err);
     }
 });
+
+
 
 function createMarkerAndPopup(markerData) {
     const marker = L.marker([markerData.lan, markerData.long], { icon: customIcon }).addTo(map);
@@ -116,8 +120,37 @@ if (navigator.geolocation) {
 
         userLocationMarker = L.marker([userLatitude, userLongitude]).addTo(map);
         userLocationMarker.bindPopup("Lokasi Saya").openPopup();
-        map.setView([userLatitude, userLongitude], 13);
+        // map.setView([userLatitude, userLongitude], 13);
+        function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // Ambil parameter latitude, longitude, dan zoom dari URL
+    const lat = getUrlParameter('lat');
+    const lng = getUrlParameter('lng');
+    const zoom = getUrlParameter('zoom');
+
+    const defaultLat = userLatitude;
+    const defaultLng = userLongitude;
+    const defaultZoom = 14;
+
+        // Cek apakah nilai parameter URL ada, jika tidak gunakan default
+    const mapLat = lat ? parseFloat(lat) : defaultLat;
+    const mapLng = lng ? parseFloat(lng) : defaultLng;
+    const mapZoom = zoom ? parseInt(zoom) : defaultZoom;
+    
+    console.log('Latitude:', mapLat);
+        console.log('Longitude:', mapLng);
+        console.log('Zoom:', mapZoom);
+    // Debugging: Log nilai parameter URL
+
+    map.setView([mapLat, mapLng], mapZoom);
+
     });
+
 }
 
 document.getElementById('btnNavigate').addEventListener('click', function () {
@@ -128,14 +161,21 @@ document.getElementById('btnNavigate').addEventListener('click', function () {
         navigator.geolocation.getCurrentPosition(function (position) {
             const userLatitude = position.coords.latitude;
             const userLongitude = position.coords.longitude;
-            // const userLatitude = -6.593154;
-            // const userLongitude = 106.808416;
+
             if (routingControl) {
                 map.removeControl(routingControl);
             }
 
+            // Ambil parameter latitude dan longitude dari URL
+            const lat = getUrlParameter('lat');
+            const lng = getUrlParameter('lng');
+
+            // Tentukan nilai default jika tidak ada yang diberikan di URL
+            const mapLat = lat ? parseFloat(lat) : destinationLat;
+            const mapLng = lng ? parseFloat(lng) : destinationLng;
+
             var start = L.latLng(userLatitude, userLongitude);
-            var end = L.latLng(destinationLat, destinationLng);
+            var end = L.latLng(mapLat, mapLng);
 
             routingControl = L.Routing.control({
                 waypoints: [
@@ -152,24 +192,41 @@ document.getElementById('btnNavigate').addEventListener('click', function () {
     }
 });
 
+
+
 function updateMapWithUserLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            const userLatitude = position.coords.latitude;
-            const userLongitude = position.coords.longitude;
-            // const userLatitude = -6.593154;
-            // const userLongitude = 106.808416;
-            console.log("Current Location: Latitude " + userLatitude + ", Longitude " + userLongitude);
-            
-            if (userLocationMarker) {
-                map.removeLayer(userLocationMarker);
-            }
+    navigator.geolocation.getCurrentPosition(function (position) {
+        const userLatitude = position.coords.latitude;
+        const userLongitude = position.coords.longitude;
 
-            userLocationMarker = L.marker([userLatitude, userLongitude]).addTo(map);
-            userLocationMarker.bindPopup("Lokasi Saya").openPopup();
-            map.setView([userLatitude, userLongitude], 13);
-        });
-    }
+        // Tambahkan marker untuk lokasi pengguna
+        userLocationMarker = L.marker([userLatitude, userLongitude]).addTo(map);
+        userLocationMarker.bindPopup("Lokasi Saya").openPopup();
+
+        // Dapatkan parameter latitude, longitude, dan zoom dari URL
+        const lat = getUrlParameter('lat');
+        const lng = getUrlParameter('lng');
+        const zoom = getUrlParameter('zoom');
+
+        // Tentukan nilai default
+        const defaultLat = userLatitude;
+        const defaultLng = userLongitude;
+        const defaultZoom = 17;
+
+        // Cek apakah nilai parameter URL ada, jika tidak, gunakan default
+        const mapLat = lat ? parseFloat(lat) : defaultLat;
+        const mapLng = lng ? parseFloat(lng) : defaultLng;
+        const mapZoom = zoom ? parseInt(zoom) : defaultZoom;
+
+        // Tampilkan nilai lat, lng, dan zoom di console
+        
+
+        // Set tampilan peta menggunakan nilai yang diambil dari URL atau default
+        map.setView([mapLat, mapLng], mapZoom);
+    });
+}
+
 }
 
 updateMapWithUserLocation();

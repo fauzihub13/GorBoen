@@ -151,7 +151,7 @@
 // Tambahkan marker di lokasi lan dan long dengan ikon kustom
 const marker = L.marker([lan, long], { icon: customIcon }).addTo(map);
     // Optionally, you can add a popup to the marker
-    marker.bindPopup("<b>"+ Wisata +"</b>").openPopup();
+    marker.bindPopup("<a href='/map?lat=" + lan + "&lng=" + long + "&zoom=17'>" + Wisata + "</a>").openPopup();
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
